@@ -18,15 +18,15 @@ const onDomReady = `
 `
 
 export default class MyDocument extends Document {
-  static async getInitialProps ({ renderPage }) {
+  static async getInitialProps ({renderPage}) {
     const page = renderPage()
     const styles = ReactFreeStyle.rewind()
-    return { ...page, css: styles.toCss() }
+    return {...page, css: styles.toCss()}
   }
 
   constructor (props) {
     super(props)
-    const { __NEXT_DATA__, ids } = props
+    const {__NEXT_DATA__, ids} = props
     if (ids) {
       __NEXT_DATA__.ids = this.props.ids
     }
@@ -37,13 +37,12 @@ export default class MyDocument extends Document {
       <html>
       <Head>
         <title>My page</title>
-        <style dangerouslySetInnerHTML={{ __html: this.props.css }} />
-        <script dangerouslySetInnerHTML={{ __html: onDomReady }} >
-        </script>
+        <style dangerouslySetInnerHTML={{__html: this.props.css}}/>
+        <script dangerouslySetInnerHTML={{__html: onDomReady}}/>
       </Head>
       <body>
-      <Main />
-      <NextScript />
+      <Main/>
+      <NextScript/>
       </body>
       </html>
     )
