@@ -1,0 +1,14 @@
+{
+  "presets": [
+    "next/babel",
+    "backpack-core/babel",
+    "stage-0"
+  ],
+  "plugins": [
+    ["module-resolver",
+      {
+        "root": ["./"]
+      }
+    ]
+  ]
+}

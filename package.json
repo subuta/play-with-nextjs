@@ -4,9 +4,9 @@
   "description": "play with next.js",
   "main": "index.js",
   "scripts": {
-    "build": "next build",
-    "watch": "node server.js",
-    "serve": "NODE_ENV=production node server.js"
+    "build": "backpack build && next build",
+    "watch": "backpack dev",
+    "serve": "NODE_ENV=production node dist/main.js"
   },
   "repository": {
     "type": "git",
@@ -20,12 +20,23 @@
   },
   "homepage": "https://github.com/subuta/play-with-nextjs#readme",
   "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-module-resolver": "^2.7.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
     "isomorphic-unfetch": "^2.0.0",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
     "next": "^5.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-free-style": "^7.0.0"
+    "react-free-style": "^7.0.0",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "backpack-core": "^0.5.0",
+    "redux-thunk": "^2.2.0"
   }
 }

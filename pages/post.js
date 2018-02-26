@@ -1,5 +1,6 @@
 import Layout from '../components/Layout.js'
 import fetch from 'isomorphic-unfetch'
+import connext from '../hoc/connext'
 
 const Post =  (props) => (
   <Layout>
@@ -19,4 +20,4 @@ Post.getInitialProps = async function (context) {
   return { show }
 }
 
-export default Post
+export default connext()(Post)
