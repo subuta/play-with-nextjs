@@ -1,41 +1,23 @@
 import {
   createStore,
   applyMiddleware,
-  compose,
-  combineReducers
+  compose
 } from 'redux'
 import thunk from 'redux-thunk'
 
+import reducers, { reset } from './reducers'
+
+// pass-through reset as store exports (for ease of use).
+export { reset }
+
+const isBrowser = typeof window !== 'undefined'
+
 const middlewares = [thunk]
-
-const counter = (state = 0, action) => {
-  if (action.type === 'increment') {
-    return state + 1
-  } else if (action.type === 'decrement') {
-    return state - 1
-  }
-  return state
-}
-
-const reducers = {
-  counter
-}
 
 // return createStore
 export default (initialState = {}) => {
-  const isBrowser = typeof window !== 'undefined'
-
-  // Grab the state from a global variable injected into the server-generated HTML
-  if (isBrowser) {
-    initialState = window.__INITIAL_STATE__
-    // Allow the passed state to be garbage-collected
-    delete window.__INITIAL_STATE__
-  }
-
-  return createStore(
-    combineReducers({
-      ...reducers
-    }),
+  const store = createStore(
+    reducers,
     initialState,
     compose(
       applyMiddleware(...middlewares),
@@ -43,4 +25,15 @@ export default (initialState = {}) => {
       isBrowser ? window.devToolsExtension() : (f) => f
     )
   )
+
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    // https://github.com/reactjs/react-redux/releases/tag/v2.0.0
+    module.hot.accept('./reducers', () => {
+      const nextRootReducer = require('./reducers').default
+      store.replaceReducer(nextRootReducer)
+    })
+  }
+
+  return store
 }

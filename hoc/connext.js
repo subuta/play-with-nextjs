@@ -1,37 +1,38 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
-import Head from 'next/head'
 import _ from 'lodash'
-import createStore from '../store'
+import createStore, { reset } from '../store'
 
-// 各requestの度にstoreをresetする仕組み。
-// it auto-creates Redux store when getInitialProps is called by Next.js and then passes this store down to React Redux's Provider, which is used to wrap the original component, also automatically. On the client side it also takes care of using same store every time, whereas on server new store is created for each request.
+const isBrowser = typeof window !== 'undefined'
+
 const store = createStore()
+let isHydrated = false
 
-// https://github.com/blakeembrey/react-free-style
-const customScript = (initialState = {}) => `
-  window.__INITIAL_STATE__ = ${JSON.stringify(initialState).replace(/</g, '\\u003c')}
-`
-
+// `connext` stands for `connect (to) next.js`
 export default function (...args) {
   return (Component) => {
     const Connected = connect.apply(this, args)(Component)
 
     let render = (props) => {
+      if (!isHydrated) {
+        // Grab the state from a props injected by next.js
+        store.dispatch(reset(props.initialState))
+        isHydrated = true
+      }
+
       return (
         <Provider store={store}>
-          <React.Fragment>
-            <Head>
-              <script dangerouslySetInnerHTML={{__html: customScript(props.initialState)}}/>
-            </Head>
-
-            <Connected {...props} />
-          </React.Fragment>
+          <Connected {...props} />
         </Provider>
       )
     }
 
     render.getInitialProps = async (ctx) => {
+      // reset store state at getInitialProps for SSR
+      if (!isBrowser) {
+        store.dispatch(reset())
+      }
+
       const fn = Component.getInitialProps || _.noop
 
       // inject redux methods to ctx

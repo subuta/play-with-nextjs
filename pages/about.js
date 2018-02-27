@@ -1,8 +1,14 @@
 import Layout from '../components/Layout.js'
 import connext from '../hoc/connext'
 
-export default connext()(() => (
+const mapStateToProps = (state) => {
+  return {
+    counter: state.counter
+  }
+}
+
+export default connext(mapStateToProps)((props) => (
   <Layout>
-    <p>This is the about page</p>
+    <p>This is the about page ({props.counter})</p>
   </Layout>
 ))

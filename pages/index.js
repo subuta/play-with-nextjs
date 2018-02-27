@@ -34,11 +34,6 @@ const Index = withStyles((props) => {
 Index.getInitialProps = async function(ctx) {
   const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
   const data = await res.json()
-
-  ctx.dispatch({type: 'increment'})
-
-  console.log('state[initialprops] = ', ctx.getState());
-
   return {
     shows: data
   }
