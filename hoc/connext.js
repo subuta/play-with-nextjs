@@ -8,6 +8,7 @@ const isBrowser = typeof window !== 'undefined'
 const store = createStore()
 let isHydrated = false
 
+// FIXME: `<Provider> does not support changing `store` on the fly` warning from react-redux(at HMR).
 // `connext` stands for `connect (to) next.js`
 export default function (...args) {
   return (Component) => {
