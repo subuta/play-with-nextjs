@@ -1,7 +1,18 @@
 {
   "presets": [
-    "next/babel",
-    "backpack-core/babel",
+    ["next/babel", {
+      "preset-env": {
+        "targets": {
+          "node": "current"
+        }
+      },
+      "transform-runtime": {
+        "helpers": false,
+        "polyfill": false,
+        "regenerator": true,
+        "moduleName": "babel-runtime"
+      }
+    }],
     "stage-0"
   ],
   "plugins": [

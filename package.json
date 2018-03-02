@@ -6,6 +6,7 @@
   "scripts": {
     "build": "backpack build && next build",
     "watch": "backpack dev",
+    "test": "ava",
     "serve": "NODE_ENV=production node dist/main.js"
   },
   "repository": {
@@ -17,6 +18,23 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/subuta/play-with-nextjs/issues"
+  },
+  "ava": {
+    "files": [
+      "test/**/*.test.js"
+    ],
+    "source": [
+      "src/**/*.js",
+      "pages/**/*.js",
+      "hoc/**/*.js",
+      "components/**/*.js",
+      "reducers/**/*.js"
+    ],
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "require": [
+      "babel-register"
+    ]
   },
   "homepage": "https://github.com/subuta/play-with-nextjs#readme",
   "dependencies": {
@@ -36,7 +54,9 @@
     "redux": "^3.7.2"
   },
   "devDependencies": {
+    "ava": "^0.25.0",
     "backpack-core": "^0.5.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "standard": "^11.0.0"
   }
 }
